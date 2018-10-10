@@ -50,8 +50,10 @@
         <c:forEach var="row" items="${mealList}">
             <tr>
                 <td><javatime:format value="${row.dateTime}" pattern="yyyy-MM-dd HH:mm"/></td>
-                <td>${row.description}</td>
-                <td style="${row.exceed ? 'color:red' : 'color:green'}">${row.calories}</td>
+                <td><c:out value="${row.description}"/></td>
+                <td style="${row.exceed ? 'color:red' : 'color:green'}"><c:out value="${row.calories}"/></td>
+                <td><a href="meals?action=edit&mealId=<c:out value="${row.id}"/>">Update</a></td>
+                <td><a href="meals?action=delete&mealId=<c:out value="${row.id}"/>">Delete</a></td>
             </tr>
         </c:forEach>
     </table>
