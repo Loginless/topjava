@@ -6,7 +6,8 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNotFoundWithId;
@@ -47,7 +48,7 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public List<Meal> getByDate(int userId, LocalDateTime startDate, LocalDateTime endDate) {
-        return repository.getByDate(userId, startDate, endDate);
+    public List<Meal> getByDate(int userId, LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
+        return repository.getByDate(userId, startDate, startTime, endDate, endTime);
     }
 }

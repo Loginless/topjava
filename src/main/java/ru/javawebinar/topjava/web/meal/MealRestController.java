@@ -7,7 +7,9 @@ import ru.javawebinar.topjava.service.MealService;
 import ru.javawebinar.topjava.to.MealWithExceed;
 import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.web.SecurityUtil;
-import java.time.LocalDateTime;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Controller
@@ -28,8 +30,8 @@ public class MealRestController {
         return MealsUtil.getWithExceeded(service.getAll(SecurityUtil.authUserId()), MealsUtil.DEFAULT_CALORIES_PER_DAY);
     }
 
-    public List<MealWithExceed> getByDate(LocalDateTime startDate, LocalDateTime endDate) {
-        return MealsUtil.getWithExceeded(service.getByDate(SecurityUtil.authUserId(), startDate, endDate), MealsUtil.DEFAULT_CALORIES_PER_DAY);
+    public List<MealWithExceed> getByDate(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
+        return MealsUtil.getWithExceeded(service.getByDate(SecurityUtil.authUserId(), startDate, startTime, endDate, endTime), MealsUtil.DEFAULT_CALORIES_PER_DAY);
     }
 
     public Meal get(int mealId) {

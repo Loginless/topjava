@@ -8,7 +8,8 @@ import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.util.MealsUtil;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -49,29 +50,33 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public List<Meal> getByDate(int userId, LocalDateTime startDate, LocalDateTime endDate) {
-        return repositoryMeals.values()
-                .stream()
-                .filter(meal -> (meal.getUserId() == userId))
-                .filter(meal -> (startDate == null) || DateTimeUtil.isBetween(meal.getDateTime(), startDate, endDate))
-                .filter(meal -> (endDate == null) || DateTimeUtil.isBetween(meal.getDateTime(), startDate, endDate))
-                .sorted(Comparator.comparing(Meal::getDateTime).reversed())
-                .collect(Collectors.toList());
+    public List<Meal> getByDate(int userId, LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
+        return sortByDate(userId, startDate, startTime, endDate, endTime);
     }
 
     @Override
     public List<Meal> getAll(int userId) {
-        return getByDate(userId, null, null);
+        return sortByDate(userId, LocalDate.MIN, LocalTime.MIN, LocalDate.MAX, LocalTime.MAX);
     }
 
     @Override
     public boolean delete(int id, int userId) {
-        if (repositoryMeals.containsKey(id) && (repositoryMeals.get(id).getUserId() == userId)) {
-            repositoryMeals.remove(id);
-            log.info("meal deleted {}", id);
-            return true;
+        if (repositoryMeals.get(id).getUserId() == userId) {
+            return repositoryMeals.remove(id) != null;
         }
         return false;
+    }
+
+    public List<Meal> sortByDate(int userId, LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
+        return repositoryMeals.values()
+                .stream()
+                .filter(meal -> (meal.getUserId() == userId))
+                .filter(meal -> (startDate == null || startTime == null) || DateTimeUtil.isBetween(meal.getDateTime().toLocalDate(), startDate, endDate)
+                        && DateTimeUtil.isBetween(meal.getDateTime().toLocalTime(), startTime, endTime))
+                .filter(meal -> (endDate == null || endTime == null) || DateTimeUtil.isBetween(meal.getDateTime().toLocalDate(), startDate, endDate)
+                        && DateTimeUtil.isBetween(meal.getDateTime().toLocalTime(), startTime, endTime))
+                .sorted(Comparator.comparing(Meal::getDateTime).reversed())
+                .collect(Collectors.toList());
     }
 }
 

@@ -54,9 +54,9 @@ public class SpringMain {
 
             //Get meals by date for user with id = 1
             System.out.println("Get meals by date:");
-            LocalDateTime startTime = LocalDateTime.of(2015, Month.MAY, 30, 10, 0);
+            LocalDateTime startTime = LocalDateTime.of(2015, Month.MAY, 31, 10, 0);
             LocalDateTime endTime = LocalDateTime.of(2015, Month.MAY, 31, 10, 0);
-            mealRestController.getByDate(startTime, endTime).forEach(System.out::println);
+            mealRestController.getByDate(startTime.toLocalDate(), startTime.toLocalTime(), endTime.toLocalDate(), endTime.toLocalTime()).forEach(System.out::println);
             System.out.println("#################");
             System.out.println();
 
