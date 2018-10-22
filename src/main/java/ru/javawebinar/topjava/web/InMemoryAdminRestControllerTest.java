@@ -31,7 +31,7 @@
 //    @Before
 //    public void setUp() throws Exception {
 //        // re-initialize
-//        InMemoryUserRepositoryImpl repository = appCtx.getBean(InMemoryUserRepositoryImpl.class);
+//        ru.javawebinar.topjava.repository.inmemory.InMemoryUserRepositoryImpl repository = appCtx.getBean(InMemoryUserRepositoryImpl.class);
 //        repository.init();
 //    }
 //
