@@ -2,7 +2,6 @@ package ru.javawebinar.topjava.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,7 +20,7 @@ public class Meal extends AbstractBaseEntity {
     public static final String GET_BETWEEN = "Meal.getBetween";
 
     @Column(name = "date_time")
-    @NotEmpty
+    @NotNull
     private LocalDateTime dateTime;
 
     @Column(nullable = false)
@@ -29,7 +28,7 @@ public class Meal extends AbstractBaseEntity {
     private String description;
 
     @Column(name = "calories")
-    @NotEmpty
+    @NotNull
     private int calories;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -1,7 +1,14 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.AssumptionViolatedException;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.rules.Stopwatch;
+import org.junit.runner.Description;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -14,6 +21,7 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 import javax.persistence.NoResultException;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.concurrent.TimeUnit;
 
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
@@ -31,6 +39,40 @@ public class MealServiceTest {
         SLF4JBridgeHandler.install();
     }
 
+    private static final Logger log = LoggerFactory.getLogger(MealServiceTest.class);
+
+    private static void logInfo(Description description, String status, long nanos) {
+        String testName = description.getMethodName();
+        log.info(String.format("Test %s %s, spent %d microseconds",
+                testName, status, TimeUnit.NANOSECONDS.toMicros(nanos)));
+    }
+
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
+
+    @Rule
+    public Stopwatch stopwatch = new Stopwatch() {
+        @Override
+        protected void succeeded(long nanos, Description description) {
+            logInfo(description, "succeeded", nanos);
+        }
+
+        @Override
+        protected void failed(long nanos, Throwable e, Description description) {
+            logInfo(description, "failed", nanos);
+        }
+
+        @Override
+        protected void skipped(long nanos, AssumptionViolatedException e, Description description) {
+            logInfo(description, "skipped", nanos);
+        }
+
+        @Override
+        protected void finished(long nanos, Description description) {
+            logInfo(description, "finished", nanos);
+        }
+    };
+
     @Autowired
     private MealService service;
 
@@ -40,8 +82,9 @@ public class MealServiceTest {
         assertMatch(service.getAll(USER_ID), MEAL6, MEAL5, MEAL4, MEAL3, MEAL2);
     }
 
-    @Test(expected = NotFoundException.class)
-    public void deleteNotFound() throws Exception {
+    @Test
+    public void deleteNotFound() {
+        exception.expect(NotFoundException.class);
         service.delete(MEAL1_ID, 1);
     }
 
@@ -58,8 +101,9 @@ public class MealServiceTest {
         assertMatch(actual, ADMIN_MEAL1);
     }
 
-    @Test(expected = NoResultException.class)
-    public void getNotFound() throws Exception {
+    @Test
+    public void getNotFound() {
+        exception.expect(NoResultException.class);
         service.get(MEAL1_ID, ADMIN_ID);
     }
 
@@ -70,8 +114,9 @@ public class MealServiceTest {
         assertMatch(service.get(MEAL1_ID, USER_ID), updated);
     }
 
-    @Test(expected = NoResultException.class)
-    public void updateNotFound() throws Exception {
+    @Test
+    public void updateNotFound() {
+        exception.expect(NoResultException.class);
         service.update(MEAL1, ADMIN_ID);
     }
 
