@@ -19,4 +19,7 @@ public interface UserService {
     void update(User user);
 
     List<User> getAll();
+
+    User getUserWithMeal(int id);
+
 }
