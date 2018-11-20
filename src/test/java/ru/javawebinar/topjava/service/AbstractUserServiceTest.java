@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import static ru.javawebinar.UserTestData.*;
+import static ru.javawebinar.topjava.UserTestData.*;
 
 public abstract class AbstractUserServiceTest extends AbstractServiceTest {
 
