@@ -1,12 +1,9 @@
-package ru.javawebinar.topjava.web;
+package ru.javawebinar.topjava.web.meal;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.service.MealService;
-import ru.javawebinar.topjava.web.meal.AbstractMealController;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,26 +14,17 @@ import java.time.temporal.ChronoUnit;
 @RequestMapping(value = "/meals")
 public class JspMealController extends AbstractMealController {
 
-    @Autowired
-    private MealService service;
-
-    @GetMapping()
-    public String getAllMeals(Model model) {
-        model.addAttribute("meals", super.getAll());
-        return "meals";
-    }
-
     @GetMapping(value = "/create")
     public String createMeal(Model model) {
         final Meal meal = super.create(new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "test", 1000));
         model.addAttribute("meal", meal);
-        return "redirect:mealForm";
+        return "forward:mealForm";
     }
 
     @GetMapping(value = "/update/{id}")
     public String update(@PathVariable int id, Model model) {
         model.addAttribute("meal", super.get(id));
-        return "redirect:mealForm";
+        return "forward:mealForm";
     }
 
     @GetMapping(value = "/delete/{id}")
