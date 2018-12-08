@@ -1,4 +1,4 @@
-package ru.javawebinar.topjava.service;
+package ru.javawebinar.topjava;
 
 import org.springframework.test.web.servlet.ResultMatcher;
 import ru.javawebinar.topjava.model.Role;
