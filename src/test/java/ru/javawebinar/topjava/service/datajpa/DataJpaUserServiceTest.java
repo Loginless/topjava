@@ -9,7 +9,7 @@ import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.javawebinar.topjava.Profiles.DATAJPA;
-import static ru.javawebinar.topjava.UserTestData.*;
+import static ru.javawebinar.topjava.service.UserTestData.*;
 
 @ActiveProfiles(DATAJPA)
 class DataJpaUserServiceTest extends AbstractJpaUserServiceTest {

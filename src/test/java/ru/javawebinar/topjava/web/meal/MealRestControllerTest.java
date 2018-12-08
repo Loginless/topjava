@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.javawebinar.topjava.MealTestData.*;
 import static ru.javawebinar.topjava.TestUtil.readFromJsonMvcResult;
 import static ru.javawebinar.topjava.TestUtil.readFromJsonResultActions;
-import static ru.javawebinar.topjava.UserTestData.USER;
+import static ru.javawebinar.topjava.service.UserTestData.USER;
 import static ru.javawebinar.topjava.model.AbstractBaseEntity.START_SEQ;
 import static ru.javawebinar.topjava.util.MealsUtil.createWithExcess;
 import static ru.javawebinar.topjava.util.MealsUtil.getWithExcess;
